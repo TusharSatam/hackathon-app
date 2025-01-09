@@ -20,9 +20,7 @@ const BottomNavbar = () => {
         <Link href="/home" className="text-center text-gray-700 hover:text-primary py-2">
           Home
         </Link>
-        <Link href="/profile" className="text-center text-gray-700 hover:text-primary py-2">
-          Profile
-        </Link>
+ 
         <button onClick={handleSignOut} className="text-center text-red-600 hover:text-red-700 py-2">
           <FaSignOutAlt className="inline-block mr-2" /> Sign Out
         </button>

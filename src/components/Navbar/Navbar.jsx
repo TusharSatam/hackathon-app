@@ -22,9 +22,7 @@ const Navbar = () => {
           <Link href="/home" className="text-lg text-white hover:text-primary">
             Home
           </Link>
-          <Link href="/profile" className="text-lg text-white hover:text-primary">
-            Profile
-          </Link>
+         
           <button
             onClick={handleSignOut}
             className="flex items-center text-lg text-red-600 hover:text-red-700"

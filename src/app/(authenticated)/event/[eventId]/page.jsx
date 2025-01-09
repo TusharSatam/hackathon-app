@@ -88,24 +88,6 @@ const EventDetails = async ({ params }) => {
                 "Not Available"
               )}
             </p>
-
-            {/* <div className="p-4 border rounded-lg shadow-inner bg-gray-100">
-              <h3 className="text-xl font-semibold mb-2 text-secondary">
-                Participants:
-              </h3>
-              {eventDetails.participants.length > 0 ? (
-                <ul className="list-disc ml-6 text-white">
-                  {eventDetails.participants.slice(0, 5).map((participant) => (
-                    <li key={participant}>{participant}</li>
-                  ))}
-                  {eventDetails.participants.length > 5 && (
-                    <li>+ {eventDetails.participants.length - 5} more...</li>
-                  )}
-                </ul>
-              ) : (
-                <p className="text-gray-500">No participants registered yet.</p>
-              )}
-            </div> */}
           </div>
         </div>
 

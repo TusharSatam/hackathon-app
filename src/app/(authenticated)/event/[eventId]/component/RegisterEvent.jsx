@@ -47,6 +47,7 @@ const RegisterEvent = ({ eventId }) => {
       const result = await response.json();
       if (response.ok) {
         toast.success("Successfully Registered!");
+        setIsRegistered(true)
       } else {
         toast.error(result.message || "Error while registering, please try again later");
       }

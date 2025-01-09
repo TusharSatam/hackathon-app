@@ -22,6 +22,7 @@ const Page = () => {
   const [hackathons, setHackathons] = useState([]);
   const { user } = useSelector((state) => state.user);
 
+
   const fetchHackathons = async () => {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/hackathons?userId=${user?.userId}`);
 
@@ -95,7 +96,7 @@ const CreateEventForm = () => {
     prizes: null, // Change prizes to number type and initialize to 0
     maxParticipants: null,
   });
-
+  const [isCreating, setisCreating] = useState(false)
   const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
@@ -109,10 +110,9 @@ const CreateEventForm = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-
     // Validate with Zod
     const result = hackathonSchema.safeParse(formData);
-
+    
     if (!result.success) {
       const errorObj = result.error.errors.reduce((acc, curr) => {
         acc[curr.path[0]] = curr.message;
@@ -121,6 +121,7 @@ const CreateEventForm = () => {
       setErrors(errorObj);
       return;
     }
+    setisCreating(true)
     let form = { ...formData, createdBy: user?.userId };
 
     // Send data to the backend
@@ -147,6 +148,7 @@ const CreateEventForm = () => {
     } else {
       toast.error("Failed to create hackathon");
     }
+    setisCreating(false)
   };
 
   return (
@@ -279,7 +281,7 @@ const CreateEventForm = () => {
         </div>
       </div>
 
-      <PrimaryBtn type="submit" btnText="Create" btnClass="mt-6 w-full py-2" />
+      <PrimaryBtn type="submit" btnText={isCreating?"Creating...":"Create"} btnClass="mt-6 w-full py-2" />
     </form>
   );
 };
