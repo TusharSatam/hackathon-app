@@ -65,7 +65,7 @@ const RegisterEvent = ({ eventId }) => {
       ) : isRegistered === null ? (
         <PrimaryBtn btnText="Check Registration Status" onClick={() => checkIfRegistered()} />
       ) : isRegistered ? (
-        <PrimaryBtn btnText="Already Registered" onClick={null} disabled={true} />
+        <PrimaryBtn btnText="Registered" onClick={null} disabled={true}  btnClass={"bg-gray-400"}/>
       ) : (
         <PrimaryBtn btnText="Register" onClick={onSubmit} />
       )}

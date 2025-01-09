@@ -8,8 +8,10 @@ const Events = () => {
   const [upcomingHackathons, setUpcomingHackathons] = useState([]);
   const [pastHackathons, setPastHackathons] = useState([]);
   const [activeTab, setActiveTab] = useState('upcoming'); // 'upcoming' or 'past'
+  const [loading, setLoading] = useState(true); // Loading state
   const router = useRouter();
-const {user}=useSelector((state)=>state.user);
+  const { user } = useSelector((state) => state.user);
+
   // Fetching hackathons data
   useEffect(() => {
     const fetchHackathons = async () => {
@@ -24,6 +26,8 @@ const {user}=useSelector((state)=>state.user);
         if (pastRes.ok) setPastHackathons(pastData);
       } catch (error) {
         console.error('Error fetching hackathons:', error);
+      } finally {
+        setLoading(false); // Set loading to false after data fetch
       }
     };
 
@@ -70,57 +74,57 @@ const {user}=useSelector((state)=>state.user);
       </div>
 
       {/* Display respective content based on active tab */}
-     
-        {currentHackathons.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-3 sm:mt-6 w-full">
-            {      currentHackathons.map((hackathon) => (
-                    <div
-                      key={hackathon._id}
-                      onClick={() => handleCardClick(hackathon._id)}
-                      className="bg-white shadow-md p-4 rounded-lg hover:cursor-pointer hover:shadow-xl transition-shadow"
-                    >
-                      {/* Hackathon Image */}
-                      {hackathon.banner && (
-                           <Image
-                           src={hackathon.banner}
-                           alt={hackathon.title}
-                                      width={1280} // Specify image dimensions
-                                      height={400} // Matches aspect ratio of original image
-                                     className="w-full h-36 object-cover rounded-t-lg mb-4"
-                                      placeholder="blur" // Optimized loading
-                                      blurDataURL="/placeholder-image.jpg" // Placeholder for low-quality image preview
-                                    />
-                    
-                      )}
-                      {/* Hackathon Title */}
-                      <h3 className="text-xl font-semibold text-primary mb-2">
-                        {hackathon.title}
-                      </h3>
-                      {/* Location */}
-                      <p className="text-sm text-gray-500 mb-2">
-                        <span className="font-medium">Location:</span>{" "}
-                        {hackathon.location}
-                      </p>
-                      {/* Dates */}
-                      <p className="text-sm text-gray-500 mb-2">
-                        <span className="font-medium">Dates:</span>{" "}
-                        {`${new Date(hackathon.startDate).toLocaleDateString()} - ${new Date(hackathon.endDate).toLocaleDateString()}`}
-                      </p>
-                      {/* Max Participants */}
-                      <p className="text-sm text-gray-500 mb-2">
-                        <span className="font-medium">Max Participants:</span>{" "}
-                        {hackathon.maxParticipants}
-                      </p>
-                    </div>
-                  ))}
-          </div>
-        ) : (
-          <p className="text-center text-gray-500  my-10">
-            {activeTab === "upcoming"
-              ? "No upcoming hackathons found."
-              : "No past hackathons found."}
-          </p>
-        )}
+      {loading ? (
+        <p className="text-center text-gray-500  my-10">Loading...</p> // Show loading indicator
+      ) : currentHackathons.length > 0 ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-3 sm:mt-6 w-full">
+          {currentHackathons.map((hackathon) => (
+            <div
+              key={hackathon._id}
+              onClick={() => handleCardClick(hackathon._id)}
+              className="bg-white shadow-md p-4 rounded-lg hover:cursor-pointer hover:shadow-xl transition-shadow"
+            >
+              {/* Hackathon Image */}
+              {hackathon.banner && (
+                <Image
+                  src={hackathon.banner}
+                  alt={hackathon.title}
+                  width={1280} // Specify image dimensions
+                  height={400} // Matches aspect ratio of original image
+                  className="w-full h-36 object-cover rounded-t-lg mb-4"
+                  placeholder="blur" // Optimized loading
+                  blurDataURL="/placeholder-image.jpg" // Placeholder for low-quality image preview
+                />
+              )}
+              {/* Hackathon Title */}
+              <h3 className="text-xl font-semibold text-primary mb-2">
+                {hackathon.title}
+              </h3>
+              {/* Location */}
+              <p className="text-sm text-gray-500 mb-2">
+                <span className="font-medium">Location:</span>{" "}
+                {hackathon.location}
+              </p>
+              {/* Dates */}
+              <p className="text-sm text-gray-500 mb-2">
+                <span className="font-medium">Dates:</span>{" "}
+                {`${new Date(hackathon.startDate).toLocaleDateString()} - ${new Date(hackathon.endDate).toLocaleDateString()}`}
+              </p>
+              {/* Max Participants */}
+              <p className="text-sm text-gray-500 mb-2">
+                <span className="font-medium">Max Participants:</span>{" "}
+                {hackathon.maxParticipants}
+              </p>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p className="text-center text-gray-500  my-10">
+          {activeTab === "upcoming"
+            ? "No upcoming hackathons found."
+            : "No past hackathons found."}
+        </p>
+      )}
     </div>
   );
 };

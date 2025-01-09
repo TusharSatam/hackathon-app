@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { z } from 'zod';
 import PrimaryBtn from '@/components/Buttons/PrimaryBtn';
 import authChecker from '@/utils/authChecker';
+import { toast } from 'react-toastify';
 
 // Zod schema for validation
 const registrationSchema = z.object({
@@ -56,9 +57,11 @@ export default function RegisterPage() {
     const data = await res.json();
 
     if (data.success) {
+      toast.success('Registration successful');
       router.push('/home');
     } else {
       setError(data.message || 'Something went wrong');
+      toast.error(data.message || 'Something went wrong');
     }
   };
 
